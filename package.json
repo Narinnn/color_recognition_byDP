@@ -1,0 +1,19 @@
+{
+  "name": "pictures",
+  "version": "1.0.0",
+  "description": "sfbhgnxcgassfbvc zsdgdn aseghfgmjxcv ",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config build_configurations/webpack.config.js --mode production --devtool none",
+    "dev": "webpack-dev-server --config build_configurations/webpack.config.js --mode development --devtool source-map",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "copy-webpack-plugin": "^5.1.1",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
+  }
+}
