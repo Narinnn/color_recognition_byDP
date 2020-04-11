@@ -1,14 +1,11 @@
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 const path = require("path");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = (env, args) => {
   return {
-    entry: "./src/js/main.js",
+    entry: "./src/client/js/main.js",
     output: {
       filename: "[name].min.js",
-      // eslint-disable-next-line no-undef
       path: path.resolve(__dirname, "../dist")
     },
     module: {
@@ -17,14 +14,14 @@ module.exports = (env, args) => {
     plugins: [
       new CopyWebpackPlugin([
         {
-          from: "src/index.html",
+          from: "src/client/index.html",
           to: "index.html"
         }
       ])
     ],
     resolve: {
       extensions: [".js"],
-      modules: ["src", "node_modules", "src/js", "build_configurations"]
+      modules: ["src", "node_modules", "src/client/js", "build_configurations"]
     }
   };
 };
