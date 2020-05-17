@@ -53,7 +53,6 @@ server.post("/upload", (request, response) => {
             
                     analyzer.run(data);
                 });
-                
             });
         } else {
             res.type = "error";

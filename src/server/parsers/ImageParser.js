@@ -1,5 +1,3 @@
-
-
 var ImageModel = require("../models/ImageModel");
 var RGBModel = require("../models/RGBModel");
 

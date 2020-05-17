@@ -6,7 +6,7 @@
   "scripts": {
     "build": "webpack --config build_configurations/webpack.config.js --mode production --devtool none",
     "dev": "webpack-dev-server --config build_configurations/webpack.config.js --mode development --devtool source-map",
-    "run-server": "node src/server/js/main.js",
+    "run-server": "node src/server/main.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -21,6 +21,8 @@
     "cli-color": "^2.0.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
-    "get-pixels": "^3.3.2"
+    "get-pixels": "^3.3.2",
+    "pngjs-image": "^0.11.7",
+    "synaptic": "^1.1.4"
   }
 }

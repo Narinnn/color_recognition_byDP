@@ -1,15 +1,20 @@
-
-
 var ImageModel = function(width, height, pixels) {
     this._pixels = pixels;
     this._width = width;
     this._height = height;
+    this._name = "";
 };
 
 ImageModel.prototype.constractor = ImageModel;
 
-
-
+Object.defineProperty(ImageModel.prototype, "name", { 
+    get: function() {
+        return this._name;
+    },
+    set: function(value) {
+        this._name = value;
+    }
+});
 Object.defineProperty(ImageModel.prototype, "width", { 
     get: function() {
         return this._width;
