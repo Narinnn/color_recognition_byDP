@@ -1,19 +1,31 @@
 <!DOCTYPE HTML>
-<meta charset="utf-8">
+<html>
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="main.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="header">
+        <h1>Анализ изображений</h1>
+      </div>
+      <div class="input-container">
+        <form id="upload-container" method="POST" action="http://localhost:9000/upload">
+          <img id="upload-image" src="/assets/upload-icon.png">
+          <div>
+            <input id="picture" type="file" name="file">
+            <label for="picture">Выберите изображение</label>
+            <span>или перетащите его сюда</span>
+          </div>
+        </form>
+      </div>
+      <div class="output-container">
+        <div class="target-picture"></div>
+        <div class="result-picture"></div>
+      </div>
+    </div>
+  </body>
+</html>
 
-<body>
-
-<!-- application/x-www-form-urlencoded -->
-<!-- multipart/form-data -->
-<!-- text/plain -->
-
-<div>
-  <h1>For analysis a peacture</h1>
-  <form action="http://localhost:9000/upload"
-        method="POST"
-        enctype="multipart/form-data">
-    <div><input name="picture" type="file" /></div>
-    <div><input type="submit"/></div>
-  </form>
-</div>
-</body>

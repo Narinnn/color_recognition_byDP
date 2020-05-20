@@ -14,6 +14,14 @@ module.exports = (env, args) => {
     plugins: [
       new CopyWebpackPlugin([
         {
+          from: "src/client/css",
+          to: "css/"
+        },
+        {
+          from: "src/client/assets",
+          to: "assets/"
+        },
+        {
           from: "src/client/index.html",
           to: "index.html"
         }

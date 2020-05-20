@@ -7,11 +7,11 @@ PNGSaver.prototype.constractor = PNGSaver;
 PNGSaver.prototype.save = function(imageModel) {
     const image = PNGImage.createImage(imageModel.width, imageModel.height);
 
-    for(var row = 0; row < imageModel.height; row++) {
-        for(var col = 0; col < imageModel.width; col++) {
-            const pixel = imageModel.pixels[row * imageModel.width + col];
+    for(var y = 0; y < imageModel.height; y++) {
+        for(var x = 0; x < imageModel.width; x++) {
+            const pixel = imageModel.pixels[y * imageModel.width + x];
             
-            image.setPixel(col, row, { red: pixel.R, green: pixel.G, blue: pixel.B, alpha: 255 });
+            image.setPixel(x, y, { red: pixel.R, green: pixel.G, blue: pixel.B, alpha: 255 });
         }
     }
 
