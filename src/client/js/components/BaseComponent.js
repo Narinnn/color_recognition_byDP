@@ -8,7 +8,7 @@ var BaseComponent = function(parent) {
 
 BaseComponent.prototype.constructor = BaseComponent;
 
-// BaseComponent.prototype.initEventListeners = function() {};
+BaseComponent.prototype.initEventListeners = function() {};
 
 BaseComponent.prototype.show = function() {
     this.$parent.append(this.$element);
