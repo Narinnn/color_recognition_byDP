@@ -1,79 +1,86 @@
-$(document).ready(function() {
-	var dropZone = $('#upload-container');
+"use strict";
 
-	$('#picture').focus(function() {
-		$('label').addClass('focus');
-	})
-	.focusout(function() {
-		$('label').removeClass('focus');
-	});
+var Application = require("./Application");
+
+new Application();
 
 
-	dropZone.on('drag dragstart dragend dragover dragenter dragleave drop', function() {
-		return false;
-	});
+// $(document).ready(function() {
+// 	var dropZone = $('#upload-container');
 
-	dropZone.on('dragover dragenter', function() {
-		dropZone.addClass('dragover');
-	});
+// 	$('#picture').focus(function() {
+// 		$('label').addClass('focus');
+// 	})
+// 	.focusout(function() {
+// 		$('label').removeClass('focus');
+// 	});
 
-	dropZone.on('dragleave', function(e) {
-		let dx = e.pageX - dropZone.offset().left;
-		let dy = e.pageY - dropZone.offset().top;
-		if ((dx < 0) || (dx > dropZone.width()) || (dy < 0) || (dy > dropZone.height())) {
-			dropZone.removeClass('dragover');
-		}
-	});
 
-	dropZone.on('drop', function(e) {
-		dropZone.removeClass('dragover');
-		let files = e.originalEvent.dataTransfer.files;
-		sendFiles(files);
-	});
+// 	dropZone.on('drag dragstart dragend dragover dragenter dragleave drop', function() {
+// 		return false;
+// 	});
 
-	$('#picture').change(function() {
-		let files = this.files;
-		sendFiles(files);
-	});
+// 	dropZone.on('dragover dragenter', function() {
+// 		dropZone.addClass('dragover');
+// 	});
 
-    function getTarget(data) {
-        if(data && data.url) {
-            let $parent = $('.target-picture');
-            let $result = $('.result-picture');
+// 	dropZone.on('dragleave', function(e) {
+// 		let dx = e.pageX - dropZone.offset().left;
+// 		let dy = e.pageY - dropZone.offset().top;
+// 		if ((dx < 0) || (dx > dropZone.width()) || (dy < 0) || (dy > dropZone.height())) {
+// 			dropZone.removeClass('dragover');
+// 		}
+// 	});
+
+// 	dropZone.on('drop', function(e) {
+// 		dropZone.removeClass('dragover');
+// 		let files = e.originalEvent.dataTransfer.files;
+// 		sendFiles(files);
+// 	});
+
+// 	$('#picture').change(function() {
+// 		let files = this.files;
+// 		sendFiles(files);
+// 	});
+
+//     function getTarget(data) {
+//         if(data && data.url) {
+//             let $parent = $('.target-picture');
+//             let $result = $('.result-picture');
             
-            $parent.empty();
-            $result.empty();
+//             $parent.empty();
+//             $result.empty();
 
-            $parent.css('background-image', 'none');
-            $result.css('background-image', 'none');
+//             $parent.css('background-image', 'none');
+//             $result.css('background-image', 'none');
 
-            let img = document.createElement('img');
-            let gif = document.createElement('img');
+//             let img = document.createElement('img');
+//             let gif = document.createElement('img');
 
-            img.src = data.url;
-            gif.src = '/assets/preloader.gif';
+//             img.src = data.url;
+//             gif.src = '/assets/preloader.gif';
 
-            $parent.append(img);
-            $result.append(gif);
-        }
-    }
+//             $parent.append(img);
+//             $result.append(gif);
+//         }
+//     }
 
-	function sendFiles(files) {
-		let formData = new FormData();
-		$(files).each(function(index, file) {
-			if (file.type == 'image/png' || file.type == 'image/jpeg') {
-				formData.append('picture', file);
-			}
-        });
+// 	function sendFiles(files) {
+// 		let formData = new FormData();
+// 		$(files).each(function(index, file) {
+// 			if (file.type == 'image/png' || file.type == 'image/jpeg') {
+// 				formData.append('picture', file);
+// 			}
+//         });
         
-        makeRequest({ url: dropZone.attr('action'), type: dropZone.attr('method'),data: formData }, getTarget);
-    }
+//         makeRequest({ url: dropZone.attr('action'), type: dropZone.attr('method'),data: formData }, getTarget);
+//     }
     
-    function makeRequest(request, callback) {
-        request.contentType = false;
-        request.processData = false;
-        request.success = callback;
+//     function makeRequest(request, callback) {
+//         request.contentType = false;
+//         request.processData = false;
+//         request.success = callback;
 
-        $.ajax(request);
-    }
-})
+//         $.ajax(request);
+//     }
+// })

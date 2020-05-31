@@ -67,6 +67,11 @@ server.post("/upload", (request, response) => {
 
             response.json(res);
         }
+    } else {
+        res.type = "error";
+        res.message = "Was getting no any file";
+
+        response.json(res);
     }
 });
 
