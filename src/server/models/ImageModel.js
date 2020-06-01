@@ -1,8 +1,8 @@
-var ImageModel = function(width, height, pixels) {
+var ImageModel = function(width, height, pixels, name) {
     this._pixels = pixels;
     this._width = width;
     this._height = height;
-    this._name = "";
+    this._name = name || "";
 };
 
 ImageModel.prototype.constractor = ImageModel;
