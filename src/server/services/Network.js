@@ -55,9 +55,9 @@ Network.prototype.recognize = function(pixel) {
     if(this._perceptron) {
         const input = [];
 
-        input.push(pixel.R / (pixel.R + pixel.G + pixel.B));
-        input.push(pixel.G / (pixel.R + pixel.G + pixel.B));
-        input.push(pixel.B / (pixel.R + pixel.G + pixel.B));
+        input.push(pixel.R / 255);
+        input.push(pixel.G / 255);
+        input.push(pixel.B / 255);
 
         const result = this._perceptron.activate(input);
         const decision = this._makeDecision(result);

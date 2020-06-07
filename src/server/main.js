@@ -112,8 +112,10 @@ server.post("/upload", (request, response) => {
 
                         return;
                     }
-            
-                    analyzer.run(data, session);
+
+                    setTimeout(() => {
+                        analyzer.run(data, session);
+                    }, 2000);
                 });
 
                 response.json(res);
