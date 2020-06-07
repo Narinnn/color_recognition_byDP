@@ -27,7 +27,7 @@ Network.prototype.train = function(data) {
 
         const outputs = model[0].output.length;
 
-        this._perceptron = new Architect.Perceptron(3, 10, outputs);
+        this._perceptron = new Architect.Perceptron(3, 14, outputs);
         this._trainer = new Trainer(this._perceptron);
 
         this._trainer.train(model, {

@@ -53,6 +53,27 @@ Application.prototype.initEventListeners = function() {
 
         this._dataProvider.makeRequest({ relative: "upload", request: { type: "POST", data: formData }, event: EventConstants.PICTURE_UPLOADED });
     }.bind(this));
+
+    $(document).on(EventConstants.GET_RESULT, function(data) {
+        var session = data.detail;
+
+        if(session && session.status) {
+            switch(session.status) {
+                case "done": {
+                    document.dispatchEvent(new CustomEvent(EventConstants.GOT_RESULT, { detail: session }));
+                    break;
+                }
+                case "rejected": {break;}
+                default: {
+                    setTimeout(function() {
+                        var endPoint = ["session", "?", ["key", session.key].join("=")].join("");
+
+                        this._dataProvider.makeRequest({ relative: endPoint, request: { type: "GET" }, event: EventConstants.GET_RESULT });
+                    }.bind(this), 2000);
+                }
+            }
+        }
+    }.bind(this));
 };
 
 module.exports = Application;

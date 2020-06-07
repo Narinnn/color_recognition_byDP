@@ -3,7 +3,8 @@ var EventConstants = {
     PICTURE_UPLOADED: "pictureUploaded",
     PICTURE_IS_PROCESSING: "pictureIsProcessing",
     WRONG_FILE_UPLOADED: "wrongFileUploaded",
-    RESULT_IS_READY: "resultIsReady"
+    GET_RESULT: "getResult",
+    GOT_RESULT: "gotResult"
 };
 
 module.exports = EventConstants;

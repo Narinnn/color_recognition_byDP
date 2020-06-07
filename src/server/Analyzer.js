@@ -16,8 +16,8 @@ Analyzer.prototype.init = function() {
     this._nn = new Network();
 };
 
-Analyzer.prototype.run = function(data) {
-    this._imageModel = this._imageService.parse(data);
+Analyzer.prototype.run = function(data, session) {
+    this._imageModel = this._imageService.parse(data, session.target);
 
     const pixels = [];
 
@@ -27,11 +27,9 @@ Analyzer.prototype.run = function(data) {
         pixels.push(result);
     }
 
-    this._resultModel = new ImageModel(this._imageModel.width, this._imageModel.height, pixels, "check");
+    this._resultModel = new ImageModel(this._imageModel.width, this._imageModel.height, pixels, session.result);
 
-    this._imageService.save(this._resultModel);
-
-    console.log("Result has saved");
+    this._imageService.save(this._resultModel, session);
 };
 
 Analyzer.prototype.train = function(data) {

@@ -10,14 +10,14 @@ let ImageProcessor = function() {
 
 ImageProcessor.prototype.constractor = ImageProcessor;
 
-ImageProcessor.prototype.parse = function(data) {
+ImageProcessor.prototype.parse = function(data, name) {
     const [width, height] = data.shape;
     const pixels = this._getPixels(data);
 
-    return new ImageModel(width, height, pixels);
+    return new ImageModel(width, height, pixels, name);
 };
 
-ImageProcessor.prototype.save = function(imageModel) {
+ImageProcessor.prototype.save = function(imageModel, session) {
     const image = PNGImage.createImage(imageModel.width, imageModel.height);
 
     for(var y = 0; y < imageModel.height; y++) {
@@ -28,10 +28,14 @@ ImageProcessor.prototype.save = function(imageModel) {
         }
     }
 
-    image.writeImage(["./storage/", imageModel.name , ".png"].join(""), err => {
+    image.writeImage(["./storage/", imageModel.name].join(""), err => {
         if(err) {
+            session.status = "rejected";
+            
             return;
         }
+
+        session.status = "done";
     });
 };
 

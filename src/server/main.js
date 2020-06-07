@@ -5,6 +5,9 @@ const format = require("cli-color");
 const getPixels = require("get-pixels");
 
 const Analyzer = require("./Analyzer");
+const SessionStorage = require("./services/SessionStorage");
+const Session = require("./models/Session");
+const Utils = require("./services/Utils");
 
 const error = format.red.bold;
 const warning = format.yellow;
@@ -12,6 +15,7 @@ const notice = format.green;
 
 const server = express();
 const analyzer = new Analyzer();
+const sessionStorage = new SessionStorage();
 
 analyzer.init();
 
@@ -24,7 +28,7 @@ server.use(express.static("storage"));
 server.get("/", (request, response) => {
     console.log(notice("Server is working"));
 
-    response.json({ type: "notice", message: "Server is working" });
+    response.json({ type: "ok", message: "Server is working" });
 });
 
 server.get("/train", (request, response) => {
@@ -33,7 +37,7 @@ server.get("/train", (request, response) => {
 
     analyzer.train(data);
 
-    response.json({ type: "notice", message: "NN was trained" });
+    response.json({ type: "ok", message: "NN was trained" });
 });
 
 server.post("/train", (request, response) => {});
@@ -48,29 +52,44 @@ server.get("/upload", (request, response) => {
 server.post("/upload", (request, response) => {
     console.log(notice("Got some file"));
 
-    const res = { type: "notice" };
+    const res = { type: "ok" };
 
     if(request.files && request.files.picture) {
         const image = request.files.picture;
         const [name, extension] = image.name.split(".");
 
-
         if(extension === "jpg" || extension === "png") {
-            image.mv("./storage/" + image.name, error => {
+            const tokenA = Utils.getToken();
+            const tokenB = Utils.getToken();
+            const session = new Session([tokenA, tokenB].join("_"), [tokenA, extension].join("."), [tokenB, "png"].join("."), BASE_ASSETS_URL);
+
+            sessionStorage.setSession(session);
+
+            image.mv("./storage/" + session.target, error => {
                 if(error) {
+                    res.type = "error";
+                    res.message = "SERVER ERROR: Cannot save an image for analysis";
+
+                    response.json(res);
+
                     return;
                 }
 
-                const imageUrl = new URL(image.name, BASE_ASSETS_URL);
+                const uri = new URL(session.target, BASE_ASSETS_URL);
 
-                res.url = imageUrl;
+                res.session = session.toJson();
 
-                getPixels(imageUrl.href, (err, data) => {
+                getPixels(uri.href, (err, data) => {
                     if(err) {
+                        res.type = "error";
+                        res.message = "SERVER ERROR: Cannot get image's buffer";
+
+                        response.json(res);
+
                         return;
                     }
             
-                    analyzer.run(data);
+                    analyzer.run(data, session);
                 });
 
                 response.json(res);
@@ -86,6 +105,18 @@ server.post("/upload", (request, response) => {
         res.message = "Was getting no any file";
 
         response.json(res);
+    }
+});
+
+server.get("/session", (request, response) => {
+    console.log(notice("Request for getting session"));
+
+    if(request.query && request.query.key) {
+        const session = sessionStorage.getSession(request.query.key);
+
+        response.json(session.toJson());
+    } else {
+        response.json({ status: "rejected" });
     }
 });
 

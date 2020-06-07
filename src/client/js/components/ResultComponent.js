@@ -19,7 +19,7 @@ ResultComponent.prototype.constructor = ResultComponent;
 ResultComponent.prototype = Object.create(BaseComponent.prototype);
 
 ResultComponent.prototype.initEventListeners = function() {
-    $(document).on(EventConstants.PICTURE_IS_PROCESSING, function(event) {
+    $(document).on(EventConstants.PICTURE_IS_PROCESSING, function(data) {
         this.$element.style.backgroundImage = "none";
 
         if(this._preloader) {
@@ -35,16 +35,18 @@ ResultComponent.prototype.initEventListeners = function() {
 
             this.$element.append(this._preloader);
         }
+
+        document.dispatchEvent(new CustomEvent(EventConstants.GET_RESULT, { detail: data.detail }));
     }.bind(this));
 
-    $(document).on(EventConstants.RESULT_IS_READY, function(data) {
-        var response = data.detail;
+    $(document).on(EventConstants.GOT_RESULT, function(data) {
+        var session = data.detail;
 
-        if(response && response.url) {
+        if(session) {
             this._preloader.style.display = "none";
-
+            
             this._img = document.createElement("img");
-            this._img.src = response.url;
+            this._img.src = [session.baseUrl, session.result].join("");
 
             this.$element.append(this._img);
         }
