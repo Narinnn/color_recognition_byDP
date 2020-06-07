@@ -41,6 +41,16 @@ Network.prototype.train = function(data) {
     }
 };
 
+Network.prototype.trained = function() {
+    let result = "not_ready";
+
+    if(this._perceptron) {
+        result = "trained";
+    }
+
+    return result;
+};
+
 Network.prototype.recognize = function(pixel) {
     if(this._perceptron) {
         const input = [];

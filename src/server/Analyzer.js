@@ -36,4 +36,8 @@ Analyzer.prototype.train = function(data) {
     this._nn.train(data);
 };
 
+Analyzer.prototype.ready = function() {
+    return this._nn.trained();
+};
+
 module.exports = Analyzer;

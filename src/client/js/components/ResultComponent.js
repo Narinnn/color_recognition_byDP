@@ -43,14 +43,37 @@ ResultComponent.prototype.initEventListeners = function() {
         var session = data.detail;
 
         if(session) {
-            this._preloader.style.display = "none";
-            
             this._img = document.createElement("img");
+
+            this._img.onload = function() {
+                this._preloader.style.display = "none";
+            }.bind(this);
+
             this._img.src = [session.baseUrl, session.result].join("");
 
             this.$element.append(this._img);
         }
     }.bind(this));
+};
+
+ResultComponent.prototype.removeEventListeners = function() {
+    $(document).off(EventConstants.PICTURE_IS_PROCESSING);
+
+    $(document).off(EventConstants.GOT_RESULT);
+};
+
+ResultComponent.prototype.destroy = function() {
+    this.removeEventListeners();
+
+    this.$parent.empty();
+
+    this._preloader = null;
+
+    this._img = null;
+
+    this.$element = null;
+
+    this.$parent = null;
 };
 
 module.exports = ResultComponent;

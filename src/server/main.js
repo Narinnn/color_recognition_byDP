@@ -28,7 +28,7 @@ server.use(express.static("storage"));
 server.get("/", (request, response) => {
     console.log(notice("Server is working"));
 
-    response.json({ type: "ok", message: "Server is working" });
+    response.json({ type: "ok", status: analyzer.ready() });
 });
 
 server.get("/train", (request, response) => {
@@ -40,7 +40,31 @@ server.get("/train", (request, response) => {
     response.json({ type: "ok", message: "NN was trained" });
 });
 
-server.post("/train", (request, response) => {});
+server.post("/train", (request, response) => {
+    const res = { type: "ok" };
+
+    if(request.files && request.files.model) {
+        const model = request.files.model;
+        const [name, extension] = model.name.split(".");
+
+        if(extension === "json") {
+            const buffer = Buffer.from(model.data);
+            const data = JSON.parse(buffer.toString());
+
+            analyzer.train(data);
+
+            res.status = "trained";
+        } else {
+            res.type = "error";
+            res.message = "No any model uploaded";
+        }
+    } else {
+        res.type = "error";
+        res.message = "No any model uploaded";
+    }
+
+    response.json(res);
+});
 
 server.get("/upload", (request, response) => {
     console.log(error("Any items was not getting"));
